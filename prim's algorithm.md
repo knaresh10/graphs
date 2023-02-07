@@ -2,7 +2,6 @@
 
 ```cpp
 #include<bits/stdc++.h>
-#define ll long long
 using namespace std;
 void prims(vector<pair<int, int>> adj[], int n) {
 	// store the sum
@@ -23,26 +22,13 @@ void prims(vector<pair<int, int>> adj[], int n) {
 		int wt = it[0];
 		int node = it[1];
 		int parent = it[2];
-
-		// for first node we will add all the adjacent nodes into the priority queue
-		if (parent == -1) {
+		if (vis[node] == 0) { // if the node is not visited only we go for its adjcents
 			vis[node] = 1;
+			if (parent != -1) edges.push_back({parent, node});
 			sum += wt;
-			for (auto it : adj[node])
-				//  add the adjacent nodes only if they are not visited
-				if (vis[it.first] == 0)
+			for (auto it : adj[node]) {
+				if (vis[it.first] == 0) // if adjacent nodes are not visited only then we push that node
 					pq.push({it.second, it.first, node});
-		} else {
-			//  for other nodes
-			//  we will first check if the node is not visited then only we will check it's neighbours
-			if (vis[node] == 0) {
-				vis[node] = 1;
-				edges.push_back({parent, node});
-				sum += wt;
-				for (auto it : adj[node]) {
-					if (vis[it.first] == 0)
-						pq.push({it.second, it.first, node});
-				}
 			}
 		}
 	}
